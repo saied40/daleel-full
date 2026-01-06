@@ -1,18 +1,27 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark-theme, .dark-theme *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --default-transition-duration: 200ms;
   --spacing-fill: -webkit-fill-available;
   --font-cairo-play: var(--font-cairo-play);
+
+  --color-primary: #F9FAF7;
+  --color-secondary: #1F2933;
+  --color-accent: #2F9E44;
+}
+
+.dark, .dark * {
+  --color-primary: #1B1F1D;
+  --color-secondary: #E6EDE9;
 }
 
 @utility bg-body {
-  @apply bg-white dark:bg-slate-900;
+  @apply bg-primary;
 }
 @utility text-body {
-  @apply text-slate-800 dark:text-white;
+  @apply text-secondary;
 }
 @utility container {
   @apply mx-auto px-2 lg:px-8;
@@ -23,8 +32,8 @@
 @utility truncate {
   @apply w-fit max-w-full;
 }
-@utility external-link {
-  @apply text-blue-400 hover:text-blue-600 underline flex items-center flex-row-reverse justify-end gap-2 w-fit;
+@utility underline-on-hover {
+  @apply relative transition-all after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-current after:scale-x-0 after:origin-bottom-right after:transition-transform hover:after:scale-x-100 hover:after:origin-bottom-left;
 }
 
 @layer base {
@@ -32,7 +41,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-body text-body;
+    @apply bg-body text-body min-h-screen;
   }
   #root {
     @apply min-h-screen flex flex-col *:w-full;
@@ -42,5 +51,12 @@
   }
   img {
     @apply max-w-full;
+  }
+  [disabled], [aria-disabled] {
+    @apply opacity-50 cursor-not-allowed pointer-events-none select-none;
+  }
+  ::selection,
+  ::-moz-selection {
+    @apply bg-accent text-white;
   }
 }
